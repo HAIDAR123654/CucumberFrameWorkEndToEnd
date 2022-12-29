@@ -22,7 +22,8 @@ public class SearchCustomerPage {
 	@FindBy(id="SearchEmail")
 	WebElement emailAdd;
 
-	@FindBy(id="search-customers")
+//	@FindBy(id="search-customers")
+	@FindBy(id="search-customers1")
 	WebElement searchBtn;
 
 	@FindBy(xpath="//table[@role='grid']")

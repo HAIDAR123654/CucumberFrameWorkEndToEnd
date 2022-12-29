@@ -25,5 +25,5 @@ Scenario Outline:Successful Login with Valid Credentials DDT
 Examples:
 |email|password|
 |admin@yourstore.com|admin|
-#|test@yourstore.com|admin|
+|test@yourstore.com|admin|
 	

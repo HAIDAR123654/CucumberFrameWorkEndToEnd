@@ -17,28 +17,28 @@ import PageObject.LoginPage;
 import PageObject.SearchCustomerPage;
 import Utitlities.ReadConfig;
 import io.cucumber.java.After;
+import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.cucumber.java.en.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
+
 /*Child class of Baseclass*/
 public class StepDef extends BaseClass {
 
 	@Before
-	public void setup1()
-	{
+	public void setup1() {
 		readConfig = new ReadConfig();
-		
-		//initialise logger
+
+		// initialise logger
 		log = LogManager.getLogger("StepDef");
 
 		System.out.println("Setup-Sanity method executed..");
 
 		String browser = readConfig.getBrowser();
-		
-		//launch browser
-		switch(browser.toLowerCase())
-		{
+
+		// launch browser
+		switch (browser.toLowerCase()) {
 		case "chrome":
 			WebDriverManager.chromedriver().setup();
 			driver = new ChromeDriver();
@@ -60,26 +60,22 @@ public class StepDef extends BaseClass {
 
 		}
 
-	
 		log.fatal("Setup1 executed...");
-
 
 	}
 
-	/*@Before("@regression")
-	public void setup2()
-	{
-		System.out.println("Setup2-Regression method executed..");
-
-		WebDriverManager.chromedriver().setup();
-		driver = new ChromeDriver();
-		log.info("Setup2 executed...");
-	}*/
+	/*
+	 * @Before("@regression") public void setup2() {
+	 * System.out.println("Setup2-Regression method executed..");
+	 * 
+	 * WebDriverManager.chromedriver().setup(); driver = new ChromeDriver();
+	 * log.info("Setup2 executed..."); }
+	 */
 
 	@Given("User Launch Chrome browser")
 	public void user_launch_chrome_browser() {
 
-		loginPg= new LoginPage(driver);
+		loginPg = new LoginPage(driver);
 		addNewCustPg = new AddNewCustomerPage(driver);
 		SearchCustPg = new SearchCustomerPage(driver);
 
@@ -109,25 +105,20 @@ public class StepDef extends BaseClass {
 
 	}
 
-	//////////Login feature///////////////////////////
+	////////// Login feature///////////////////////////
 	@Then("Page Title should be {string}")
 	public void page_title_should_be(String expectedTitle) {
-		String actualTitle=driver.getTitle();
+		String actualTitle = driver.getTitle();
 
-		if(actualTitle.equals(expectedTitle))
-		{
+		if (actualTitle.equals(expectedTitle)) {
 			log.warn("Test passed: Login feature :Page title matched.");
 
-			Assert.assertTrue(true);//pass
-		}
-		else
-		{
-			Assert.assertTrue(false);//fail
+			Assert.assertTrue(true);// pass
+		} else {
+			Assert.assertTrue(false);// fail
 			log.warn("Test Failed: Login feature- page title not matched.");
 
-
 		}
-
 
 	}
 
@@ -137,32 +128,25 @@ public class StepDef extends BaseClass {
 		log.info("user clicked on logout link.");
 
 	}
+	/*
+	 * @Then("close browser") public void close_browser() { driver.close();
+	 * log.info("Browser closed");
+	 * 
+	 * // driver.quit(); }
+	 */
 
-	@Then("close browser")
-	public void close_browser() {
-		driver.close();
-		log.info("Browser closed");
-
-		//driver.quit();
-	}
-
-
-	///////////////////////////Add new customer/////////////////////
-
+	/////////////////////////// Add new customer/////////////////////
 
 	@Then("User can view Dashboad")
 	public void user_can_view_dashboad() {
 		String actualTitle = addNewCustPg.getPageTitle();
 		String expectedTitle = "Dashboard / nopCommerce administration";
 
-		if(actualTitle.equals(expectedTitle))
-		{
+		if (actualTitle.equals(expectedTitle)) {
 			log.info("user can view dashboard test passed.");
 			Assert.assertTrue(true);
 
-		}
-		else
-		{
+		} else {
 			Assert.assertTrue(false);
 			log.warn("user can view dashboard test failed.");
 
@@ -207,23 +191,20 @@ public class StepDef extends BaseClass {
 		String actualTitle = addNewCustPg.getPageTitle();
 		String expectedTitle = "Add a new customer / nopCommerce administration";
 
-		if(actualTitle.equals(expectedTitle))
-		{
+		if (actualTitle.equals(expectedTitle)) {
 			log.info("User can view Add new customer page- passed");
 
-			Assert.assertTrue(true);//pass
-		}
-		else
-		{
+			Assert.assertTrue(true);// pass
+		} else {
 			log.info("User can view Add new customer page- failed");
 
-			Assert.assertTrue(false);//fail
+			Assert.assertTrue(false);// fail
 		}
 	}
 
 	@When("User enter customer info")
 	public void user_enter_customer_info() {
-		//addNewCustPg.enterEmail("cs129@gmail.com");
+		// addNewCustPg.enterEmail("cs129@gmail.com");
 		addNewCustPg.enterEmail(generateEmailId() + "@gmail.com");
 		addNewCustPg.enterPassword("test1");
 		addNewCustPg.enterFirstName("Prachi");
@@ -235,7 +216,6 @@ public class StepDef extends BaseClass {
 		addNewCustPg.enterManagerOfVendor("Vendor 1");
 
 		log.info("customer information entered");
-
 
 	}
 
@@ -250,23 +230,20 @@ public class StepDef extends BaseClass {
 	public void user_can_view_confirmation_message(String exptectedConfirmationMsg) {
 
 		String bodyTagText = driver.findElement(By.tagName("Body")).getText();
-		if(bodyTagText.contains(exptectedConfirmationMsg))
-		{
-			Assert.assertTrue(true);//pass
+		if (bodyTagText.contains(exptectedConfirmationMsg)) {
+			Assert.assertTrue(true);// pass
 			log.info("User can view confirmation message - passed");
 
-		}
-		else
-		{
+		} else {
 			log.warn("User can view confirmation message - failed");
 
-			Assert.assertTrue(false);//fail
+			Assert.assertTrue(false);// fail
 
 		}
 
 	}
 
-	////////////Search Customer//////////////////////////
+	//////////// Search Customer//////////////////////////
 	@When("Enter customer EMail")
 	public void enter_customer_e_mail() {
 		SearchCustPg.enterEmailAdd("victoria_victoria@nopCommerce.com");
@@ -291,25 +268,21 @@ public class StepDef extends BaseClass {
 	public void user_should_found_email_in_the_search_table() {
 		String expectedEmail = "victoria_victoria@nopCommerce.com";
 
-		//   Assert.assertTrue(SearchCustPg.searchCustomerByEmail(expectedEmail));
+		// Assert.assertTrue(SearchCustPg.searchCustomerByEmail(expectedEmail));
 
-		if( SearchCustPg.searchCustomerByEmail(expectedEmail) ==true)
-		{
+		if (SearchCustPg.searchCustomerByEmail(expectedEmail) == true) {
 			Assert.assertTrue(true);
 			log.info("User should found Email in the Search table - passed");
 
-		}
-		else {
+		} else {
 			log.info("User should found Email in the Search table - passed");
 			Assert.assertTrue(false);
 
 		}
 
-
 	}
 
-	///////////////search customer by name////////////////////
-
+	/////////////// search customer by name////////////////////
 
 	@When("Enter customer FirstName")
 	public void enter_customer_first_name() {
@@ -326,65 +299,57 @@ public class StepDef extends BaseClass {
 	public void user_should_found_name_in_the_search_table() {
 		String expectedName = "Victoria Terces";
 
-
-		if( SearchCustPg.searchCustomerByName(expectedName) ==true)
-		{
+		if (SearchCustPg.searchCustomerByName(expectedName) == true) {
 			Assert.assertTrue(true);
-		}
-		else
+		} else
 			Assert.assertTrue(false);
 
 	}
 
-	@After
-	public void teardown(Scenario sc)
-	{
-		System.out.println("Tear Down method executed..");
-		if(sc.isFailed()==true)
-		{
-			//Convert web driver object to TakeScreenshot
+	/*
+	 * @After public void teardown(Scenario sc) {
+	 * System.out.println("Tear Down method executed.."); if(sc.isFailed()==true) {
+	 * //Convert web driver object to TakeScreenshot
+	 * 
+	 * String fileWithPath =
+	 * "C:\\Users\\ha890\\git\\CucumberFramework\\CucumberFramework\\Screenshot\\failedScreenshot.png";
+	 * TakesScreenshot scrShot =((TakesScreenshot)driver);
+	 * 
+	 * //Call getScreenshotAs method to create image file File
+	 * SrcFile=scrShot.getScreenshotAs(OutputType.FILE);
+	 * 
+	 * //Move image file to new destination File DestFile=new File(fileWithPath);
+	 * 
+	 * //Copy file at destination
+	 * 
+	 * try { FileUtils.copyFile(SrcFile, DestFile); } catch (IOException e) { //
+	 * TODO Auto-generated catch block e.printStackTrace(); } }
+	 * 
+	 * driver.quit(); }
+	 */
 
-			String fileWithPath = "C:\\Users\\ha890\\git\\CucumberFramework\\CucumberFramework\\Screenshot\\failedScreenshot.png";
-			TakesScreenshot scrShot =((TakesScreenshot)driver);
+	/*
+	 * @After public void teardown2() {
+	 * System.out.println("Tear Down method executed.."); driver.quit(); }
+	 */
 
-			//Call getScreenshotAs method to create image file
-			File SrcFile=scrShot.getScreenshotAs(OutputType.FILE);
-
-			//Move image file to new destination
-			File DestFile=new File(fileWithPath);
-
-			//Copy file at destination
-
-			try {
-				FileUtils.copyFile(SrcFile, DestFile);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
-		driver.quit();
-	}
-
-	/*@After
-	public void teardown2()
-	{
-		System.out.println("Tear Down method executed..");
-		driver.quit();
-	}*/
-
-	/*@BeforeStep
-	public void beforeStepMethodDemo()
-	{
-		System.out.println("This is before step....");
-	}
-
+	/*
+	 * @BeforeStep public void beforeStepMethodDemo() {
+	 * System.out.println("This is before step...."); }
+	 * 
+	 * 
+	 * @AfterStep public void afterStepMethodDemo() {
+	 * System.out.println("This is after step...."); }
+	 */
 
 	@AfterStep
-	public void afterStepMethodDemo()
-	{
-		System.out.println("This is after step....");
-	}*/
+	public void addScreenshot(Scenario scenario) {
+		if (scenario.isFailed() == true) {
+			final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+			scenario.attach(screenshot, "image/png", scenario.getName());
+		}
+	}
 
+//		driver.quit();
 
 }
